@@ -1,5 +1,7 @@
 # Maven
 
+[TOC]
+
 ## 1.Maven介绍
 
 - Maven是一个项目构建工具（这就是个构建项目的辅助，不使用也可以）
@@ -64,7 +66,7 @@ a.jar需要b.jar这个关系叫做依赖，或者你的项目中要使用mysql�
 
   ​			这个测试也是批量的，maven同时执行多个测试代码，同时测试很多功能(方法)。
 
-  ​			如果不使用Mave，一次只能测试一个功能(方法)。
+  ​			如果不使用Maven，一次只能测试一个功能(方法)。
 
 - <mark>报告</mark> :  生成测试结果的文件， 测试有没有通过。
 
@@ -119,7 +121,7 @@ a.jar需要b.jar这个关系叫做依赖，或者你的项目中要使用mysql�
    再把M2_HOME加入到path之中，在所有路径之前加入 %M2_HOME%\bin;
   ```
 
-- 验证，新的命令行中，执行mvn -v
+- 验证，新的命令行中，执行mvn -v(这个命令代表测试这个Maven的版本号)
 
 ## 8.Maven核心----工程约定目录结构
 
@@ -687,5 +689,133 @@ C:\development\Maven\Maven-jar\com\yunbocheng\ch01-maven\1.0-SNAPSHOT\ch01-maven
 
 <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210802214904.png" style="zoom:80%;" />
 
+## 22. idae中导入Maven工程(模块)
 
+### 22.1 解决依赖不能识别的问题：
+
+- 第一种 ：将鼠标停留在==pom.xml文件==上，右键选中==Maven==，之后点击==重新加载项目==。
+- 注意 ：此时刷新的==只是这一个项目==的依赖文件。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210803100346.png" style="zoom:67%;" />
+
+- 第二种：在Maven栏中点击刷新按钮
+
+- 注意 ： 此时刷新的是整个在Maven栏中存在的项目
+
+  <img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210803100837.png" style="zoom: 80%;" />
+
+### 22.2 idea导入Maven模块
+
+- 第一步 ：找到项目结构，找到模块，然后点击加号，导入模块。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210803101718.png" style="zoom:67%;" />
+
+- 第二步 ： 在你的资源管理器中找到你要导入的Maven模块。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210803101856.png" style="zoom: 50%;" />
+
+- 第三步 ： 选中从外部模型导入模块，选择Maven，点击确定。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210803101953.png" style="zoom:50%;" />
+
+- 第四步 ：将缺少的依赖进行勾选。idea会自定为我们选择的。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210803102103.png" style="zoom:50%;" />
+
+## 23.依赖管理
+
+- **==依赖范围==， 在pom.xml配置文件中使用scope标签表示的。**
+- **scope:表示依赖使用的范围，也就是在maven构建项目的那些阶段中起作用。**
+- maven构建项目 编译， 测试 ，打包， 安装 ，部署 过程（阶段）
+- **scope的值有 :  compile, test, provided ,默认是==compile==**
+- ==compile== : 在编译， 测试 ，打包， 安装 ，部署 这些阶段都要用到这个依赖的jar包。
+- ==test== ：只在测试程序阶段使用这个依赖jar包，
+- ==provided(提供者)== ： 在编写主程序和运行程序阶段使用这个依赖jar包。
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/image-20210803103509974.png" alt="image-20210803103509974" style="zoom: 80%;" />
+
+- **重点 ： 使用==compile== ，该项目打包之后，会在生成的war包或者jar包中==存在==被compile声明的依赖项(即jar包)，**
+
+  **使用==provided==，该项目打包之后，生成的jar包或者war包中==不存在==被peovided声明的依赖项(jar包)。**
+
+- **在pom.xm文件中添加依赖jar包的时候，如果本机仓库没有，Maven会==自动==到中央仓库进行下载，不用开发人员自己解决，并且加入依赖项的代码==(坐标)==可以去中央仓库进行==复制粘贴。==**
+
+## 24.Maven常用操作
+
+### 24.1 Maven属性设置
+
+- **这个属性设置是Maven提供的。**
+
+```xml
+<!--在 properties标签中声明的就是Maven属性的设置 -->
+<!--maven.compiler.source 这是属性名，1.8这是属性值-->
+<properties>
+    <!--maven构建项目使用的编码方式，避免中文乱码-->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!--编译代码使用饿jdk版本-->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <!--运行程序时使用的jdk版本-->
+    <maven.compiler.target>1.8</maven.compiler.target>
+</properties>
+```
+
+ ### 24.2 Maven全局变量
+
+- **这个属性是开发人员自定义的。**
+
+- **自定义的属性 ：**
+  - 在 ==properties标签中== 通过自定义标签声明变量（标签名就是变量名）。
+  - 在pom.xml文件中的其它位置，使用 ==${标签名}== 使用变量的值。
+- **自定义全局变量一般是定义==依赖的版本号==， 当你的项目中要使用多个相同的版本号， 先使用全局变量定义， 在使用==${变量名}==**
+
+```xml
+<!--在 properties 标签中声明自定义的全局变量-->
+<properties>
+    <!--maven构建项目使用的编码方式，避免中文乱码-->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!--编译代码使用饿jdk版本-->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <!--运行程序时使用的jdk版本-->
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <!--自定义变量(这个变量名就是标签名)，表示版本号-->
+    <!--这个标签名可以自己定义，因为在XML文件中标签名随意定义，没有要求。-->
+    <spring.version>5.2.0</spring.version>
+</properties>
+
+```
+
+- **之后在其他地方使用这个版本号的时候就不用挨个的书写版本号，直接使用这个变量。**
+- **这样的话只要在==properties== 中修改这个版本号，修改一次，在其他的依赖中这个版本号都会更改。**
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210803112043.png" style="zoom:80%;" />
+
+<img src="https://gitee.com/YunboCheng/imageBad/raw/master/image/20210803112434.png" style="zoom:67%;" />
+
+### 24.3 资源插件
+
+- **在pom.xml的 ==build标签==中加入==resources标签==**
+
+```xml
+<build>
+    <!--只要将这个resources标签中放到buil标签中就可以，可以是任意的位置-->
+	<resources>
+		<resource>
+		<directory>src/main/java</directory><!--所在的目录-->
+		<includes><!--包括目录下的.properties,.xml 文件都会扫描到-->
+		<include>**/*.properties</include>
+		<include>**/*.xml</include>
+		</includes>
+		<!--filtering 选项 false 不启用过滤器， *.property 已经起到过滤的作用了-->
+		<filtering>false</filtering>
+		</resource>
+	</resources>
+</build>
+<!--以上代码代表的含义：将src/main/java目录下得所有.properties和.xml文件-->
+```
+
+例如 ：mybatis课程中会用到这个作用。
+
+- 默认没有使用resources的时候， maven执行编译代码时， 会把==src/main/resource目录中==的文件==拷贝==到==target/classes目录中==。对于==src/main/java== 目录下的==非Java文件不处理==，不会拷贝到==target/classes目录中==。
+
+- 我们程序有时需要把一些文件放在==src/main/java== 目录中，当我们在执行Java程序时，需要用到 ==src/main/java== 目录中的文件，需要告诉Maven在 使用命令==mvn compile== 编译==src/main/java目录下的程序==的时候，需要把Java文件夹中的==非Java文件一同拷贝==到==target/classes目录中==
 

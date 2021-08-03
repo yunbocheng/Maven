@@ -11,7 +11,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="JavaSE_Maven" target="1.7" />
+      <module name="ch01-maven" target="1.5" />
+      <module name="JavaSE_Maven" target="1.8" />
       <module name="Web_Maven" target="1.8" />
     </bytecodeTargetLevel>
   </component>

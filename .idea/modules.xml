@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/JavaSE_Maven/JavaSE_Maven.iml" filepath="$PROJECT_DIR$/JavaSE_Maven/JavaSE_Maven.iml" />
       <module fileurl="file://$PROJECT_DIR$/Maven.iml" filepath="$PROJECT_DIR$/Maven.iml" />
       <module fileurl="file://$PROJECT_DIR$/Web_Maven/Web_Maven.iml" filepath="$PROJECT_DIR$/Web_Maven/Web_Maven.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../标准的Maven目录结构/ch01-maven.iml" filepath="$PROJECT_DIR$/../标准的Maven目录结构/ch01-maven.iml" />
     </modules>
   </component>
 </project>
